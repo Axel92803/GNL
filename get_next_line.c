@@ -1,6 +1,6 @@
 #include "get_next_line.h"	
 
-static char	*function_name(int fd, char *buf, char *backup)
+static char	*read_and_accumulate(int fd, char *buf, char *backup)
 {
 	int		read_line;
 	char	*char_temp;
@@ -57,7 +57,7 @@ char	*get_next_line(int fd)
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (0);
-	line = function_name(fd, buf, backup);
+	line = read_and_accumulate(fd, buf, backup);
 	free(buf);
 	buf = NULL;
 	if (!line)
