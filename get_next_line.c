@@ -1,4 +1,4 @@
-#include "get_next_line.h"	
+#include "get_next_line.h"
 
 static char	*read_and_accumulate(int fd, char *buf, char *backup)
 {
@@ -6,11 +6,15 @@ static char	*read_and_accumulate(int fd, char *buf, char *backup)
 	char	*char_temp;
 
 	read_line = 1;
-	while (read_line != '\0')
+	while (read_line != 0)
 	{
 		read_line = read(fd, buf, BUFFER_SIZE);
 		if (read_line == -1)
+		{
+			free(backup);
+			backup = NULL;
 			return (0);
+		}
 		else if (read_line == 0)
 			break ;
 		buf[read_line] = '\0';
