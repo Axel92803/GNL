@@ -1,12 +1,14 @@
+*This project has been created as part of the 42 curriculum by itanvuia*
+
 # get_next_line (GNL)
 
 ![42 School](https://img.shields.io/badge/42-000000?style=for-the-badge&logo=42&logoColor=white)
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
-![Grade](https://img.shields.io/badge/Grade-100%2F100-success?style=for-the-badge)
+![Grade](https://img.shields.io/badge/Grade-NA%2F100-success?style=for-the-badge)
 
 > **Read a line from a file descriptor, one line at a time**
 
-## 📋 Overview
+## 📋 Description
 
 get_next_line (GNL) is a 42 School project that implements a function to read and return one line at a time from a file descriptor. This project teaches advanced C concepts including static variables, dynamic memory allocation, buffer management, and efficient file I/O operations.
 
@@ -44,8 +46,8 @@ char *get_next_line(int fd);
 
 ## 🛠️ Technical Implementation
 
-**Language:** C  
-**Allowed functions:** `read`, `malloc`, `free`  
+**Language:** C
+**Allowed functions:** `read`, `malloc`, `free`
 **Forbidden:** `libft` functions, global variables, `lseek`
 
 ### Core Concepts
@@ -62,7 +64,12 @@ char *get_next_line(int fd);
 get_next_line/
 ├── get_next_line.c        # Main function implementation
 ├── get_next_line_utils.c  # Helper functions (string manipulation)
-└── get_next_line.h        # Header file with prototypes
+├── get_next_line.h        # Header file with prototypes
+└── bonus/
+    ├── get_next_line_bonus.c        # Main bonus function implementation
+    ├── get_next_line_utils_bonus.c  # Helper functions (string manipulation)
+    └── get_next_line_bonus.h        # Bonus header file with prototypes
+
 ```
 
 ### How It Works
@@ -76,21 +83,35 @@ get_next_line/
 6. Repeat until EOF
 ```
 
-## 🚀 Compilation & Usage
+## 🚀 Instructions
 
 ### Compilation
 
 The buffer size is defined at compile time using the `-D` flag:
 
+#### Mandatory:
+
 ```bash
 # Compile with buffer size of 42
-gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl_test
+cc -Wall -Wextra -Werror -c -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl_test
 
 # Common buffer sizes for testing
-gcc -D BUFFER_SIZE=1 ...    # Minimum - stress test
-gcc -D BUFFER_SIZE=32 ...   # Standard
-gcc -D BUFFER_SIZE=1024 ... # Larger buffer
-gcc -D BUFFER_SIZE=9999999  # Edge case testing
+cc -D BUFFER_SIZE=1 ...    # Minimum - stress test
+cc -D BUFFER_SIZE=32 ...   # Standard
+cc -D BUFFER_SIZE=1024 ... # Larger buffer
+cc -D BUFFER_SIZE=9999999  # Edge case testing
+```
+#### Bonus:
+
+```bash
+# Compile with buffer size of 42
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c -o gnl_test
+
+# Common buffer sizes for testing
+cc -D BUFFER_SIZE=1 ...    # Minimum - stress test
+cc -D BUFFER_SIZE=32 ...   # Standard
+cc -D BUFFER_SIZE=1024 ... # Larger buffer
+cc -D BUFFER_SIZE=9999999  # Edge case testing
 ```
 
 ### Basic Usage Example
@@ -133,7 +154,7 @@ int main(void)
     char *line;
 
     printf("Enter text (Ctrl+D to end):\n");
-    
+
     // Read from stdin (file descriptor 0)
     while ((line = get_next_line(0)) != NULL)
     {
@@ -150,7 +171,7 @@ int main(void)
 For reading from multiple files simultaneously, you would need to call `get_next_line()` multiple times with different file descriptors:
 
 ```c
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <fcntl.h>
 
 int main(void)
@@ -165,7 +186,7 @@ int main(void)
     line1 = get_next_line(fd1);
     printf("File 1: %s", line1);
     free(line1);
-    
+
     line2 = get_next_line(fd2);
     printf("File 2: %s", line2);
     free(line2);
@@ -185,7 +206,7 @@ int main(void)
 echo -e "Line 1\nLine 2\nLine 3" > test.txt
 
 # Compile and run
-gcc -D BUFFER_SIZE=32 get_next_line.c get_next_line_utils.c main.c
+cc -D BUFFER_SIZE=32 get_next_line.c get_next_line_utils.c main.c
 ./a.out test.txt
 ```
 
@@ -193,7 +214,7 @@ gcc -D BUFFER_SIZE=32 get_next_line.c get_next_line_utils.c main.c
 
 ```bash
 # Compile with debug symbols
-gcc -g -D BUFFER_SIZE=32 get_next_line.c get_next_line_utils.c main.c
+cc -g -D BUFFER_SIZE=32 get_next_line.c get_next_line_utils.c main.c
 
 # Check for leaks
 valgrind --leak-check=full --show-leak-kinds=all ./a.out test.txt
@@ -219,6 +240,17 @@ valgrind --leak-check=full --show-leak-kinds=all ./a.out test.txt
 // Read errors (permissions, closed FD)
 // Sequential reads from multiple file descriptors
 ```
+
+## 🧠 Algorithm Justification
+The selected algorithm utilizes a **Read-Accumulate-Extract** strategy to handle variable line lengths and buffer sizes efficiently:
+
+**Accumulation:** The `read_and_accumulate()` function reads data in `BUFFER_SIZE` chunks and appends it to a static "backup" string. This ensures that even if a read spans multiple lines, no data is lost between calls.
+
+**Line Search:** The process continues until a newline (\n) is found in the buffer or the end of the file (EOF) is reached.
+
+**Extraction:** The `extract()` function identifies the exact position of the newline, creates a new string for the current line, and updates the static backup to store only the "leftover" characters for the next call.
+
+**Efficiency:** By using a static array for the bonus part, the function can maintain 1024 unique "backups" for different file descriptors simultaneously using only one static variable.
 
 ## 💡 Key Learnings & Challenges
 
@@ -279,7 +311,7 @@ valgrind --leak-check=full --show-leak-kinds=all ./a.out test.txt
 
 ## 🎓 42 School Evaluation
 
-**Grade:** N/A/100 ✅  
+**Grade:** N/A/100 ✅
 **Evaluation Date:** [N/A]
 
 **Peer Review Highlights:**
@@ -294,13 +326,7 @@ valgrind --leak-check=full --show-leak-kinds=all ./a.out test.txt
 This project builds upon:
 - **Libft** - String manipulation functions were useful here
 
-This project prepares for:
-- **ft_printf** - More complex parsing and output formatting
-- **pipex** - Working with pipes and file descriptors
-- **minishell** - Reading user input and parsing commands
-- **cub3d** - Reading map files line by line
-
-## 📚 Useful Resources
+## 📚 Resources
 
 - [Unix File I/O Documentation](https://man7.org/linux/man-pages/man2/read.2.html)
 - [Static Variables in C](https://www.geeksforgeeks.org/static-variables-in-c/)
@@ -316,9 +342,9 @@ This is a completed school project, but feedback and suggestions are always welc
 
 ---
 
-**Author:** Alex Tanvuia (Ionut Tanvuia)  
-**42 Login:** itanvuia  
-**School:** 42 London  
+**Author:** Alex Tanvuia (Ionut Tanvuia)
+**42 Login:** itanvuia
+**School:** 42 London
 **Project Completed:** [November 2025]
 
 [![42 Profile](https://img.shields.io/badge/42_Profile-itanvuia-000000?style=flat-square&logo=42)](https://profile.intra.42.fr/)
