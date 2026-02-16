@@ -21,9 +21,9 @@
 #  define BUFFER_SIZE 1
 # endif
 
-#ifndef FD_MAX
-# define FD_MAX 1024
-#endif
+# ifndef FD_MAX
+#  define FD_MAX 1024
+# endif
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strlen(const char *str);
