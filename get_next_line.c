@@ -24,8 +24,7 @@ static char	*read_and_accumulate(int fd, char *buf, char *backup)
 		if (read_line == -1)
 		{
 			free(backup);
-			backup = NULL;
-			return (0);
+			return (NULL);
 		}
 		else if (read_line == 0)
 			break ;
