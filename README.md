@@ -4,7 +4,7 @@
 
 ![42 School](https://img.shields.io/badge/42-000000?style=for-the-badge&logo=42&logoColor=white)
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
-![Grade](https://img.shields.io/badge/Grade-NA%2F100-success?style=for-the-badge)
+![Grade](https://img.shields.io/badge/Grade-125%2F125-success?style=for-the-badge)
 
 > **Read a line from a file descriptor, one line at a time**
 
@@ -311,8 +311,9 @@ The selected algorithm utilizes a **Read-Accumulate-Extract** strategy to handle
 
 ## 🎓 42 School Evaluation
 
-**Grade:** N/A/100 ✅
-**Evaluation Date:** [N/A]
+**Grade:** 125/125 ✅
+**Bonus:** [YES]  
+**Evaluation Date:** [02/03/2026]
 
 **Peer Review Highlights:**
 - Clean, readable code following 42 norm
@@ -343,9 +344,12 @@ This is a completed school project, but feedback and suggestions are always welc
 ---
 
 **Author:** Alex Tanvuia (Ionut Tanvuia)
+
 **42 Login:** itanvuia
+
 **School:** 42 London
-**Project Completed:** [November 2025]
+
+**Project Completed:** [December 2025]
 
 [![42 Profile](https://img.shields.io/badge/42_Profile-itanvuia-000000?style=flat-square&logo=42)](https://profile.intra.42.fr/)
 
